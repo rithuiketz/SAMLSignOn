@@ -6,15 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.saml.SAMLCredential;
-import org.springframework.security.saml.userdetails.SAMLUserDetailsService;
-
+import org.springframework.security.saml.context.SAMLContextProvider;
+import org.springframework.security.saml.context.SAMLContextProviderImpl;
+import org.springframework.security.saml.storage.EmptyStorageFactory;
 import com.github.ulisesbocchio.spring.boot.security.saml.bean.SAMLConfigurerBean;
-import com.github.ulisesbocchio.spring.boot.security.saml.configurer.ServiceProviderBuilder;
-import com.github.ulisesbocchio.spring.boot.security.saml.configurer.ServiceProviderConfigurerAdapter;
+
 
 import revize.saml.config.security.SAMLUserDetailsServiceImpl;
 
@@ -58,6 +55,7 @@ public class SAMLCustomConfig extends WebSecurityConfigurerAdapter {
         .and()
             .apply(saml())
             .serviceProvider()
+            	.samlContextProvider(emptySAMLProcessor())
                 .metadataGenerator() //(1)
                 .entityId(entityID)
                 .and()
@@ -84,5 +82,12 @@ public class SAMLCustomConfig extends WebSecurityConfigurerAdapter {
                 
         // @formatter:on
     }
+
+	private SAMLContextProvider emptySAMLProcessor() {
+		
+		SAMLContextProviderImpl impl = new SAMLContextProviderImpl();
+		impl.setStorageFactory(new EmptyStorageFactory());
+		return impl;
+	}
 
 }
