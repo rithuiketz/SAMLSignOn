@@ -1,0 +1,1 @@
+web: java -jar target/revizeSAML-0.0.1-SNAPSHOT.war -p 80
