@@ -1,1 +1,1 @@
-web: java -war target/revizeSAML-0.0.1-SNAPSHOT.war --server.port=80
+web: java -war target/revizeSAML-0.0.1-SNAPSHOT.war --server.port=$PORT
