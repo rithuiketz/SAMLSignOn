@@ -81,7 +81,10 @@ public class SAMLCustomConfig extends WebSecurityConfigurerAdapter {
                 .defaultTargetURL("/")
             .and()
                 .metadataManager()
-                .metadataProvider(metadataProvider())        
+                .metadataLocations(metaDataLocation)
+                //uncomment to use url based idp metadata
+                //.metadataProvider(metadataProvider())
+                
                 .refreshCheckInterval(0)
             .and()
                 .extendedMetadata() //(5)
@@ -94,19 +97,14 @@ public class SAMLCustomConfig extends WebSecurityConfigurerAdapter {
         // @formatter:on
     }
 
-	@Bean
-	public MetadataProvider metadataProvider() {
-		HttpClient client = new HttpClient();
-		Timer timer = new Timer();
-		try {
-			HTTPMetadataProvider provider = new HTTPMetadataProvider(timer, client, metaDataLocation);
-			return provider;
-		} catch (MetadataProviderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+	//uncomment to use url based idp metadata
+	/*
+	 * @Bean public MetadataProvider metadataProvider() { HttpClient client = new
+	 * HttpClient(); Timer timer = new Timer(); try { HTTPMetadataProvider provider
+	 * = new HTTPMetadataProvider(timer, client, metaDataLocation); return provider;
+	 * } catch (MetadataProviderException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } return null; }
+	 */
 
 	private SAMLContextProvider emptySAMLProcessor() {
 		
